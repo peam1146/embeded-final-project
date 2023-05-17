@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<script>
+  import { makeStory } from "plotteus";
+
+const div = document.querySelector("#story");
+const steps = [
+  {
+    key: "intro",
+    chartType: "treemap",
+    title: "Plotteus",
+    titleAnchor: "middle",
+    subtitle: "A data storytelling library.",
+    subtitleAnchor: "middle",
+    showValues: true,
+    showDatumLabels: true,
+    groups: [
+      {
+        key: "Alice",
+        data: [
+          { key: "A", value: 1 },
+          { key: "B", value: 2 },
+          { key: "C", value: 3 },
+        ],
+      },
+      {
+        key: "Bob",
+        data: [
+          { key: "A", value: 3 },
+          { key: "B", value: 4 },
+          { key: "C", value: 2 },
+        ],
+      },
+      {
+        key: "Cecile",
+        data: [
+          { key: "A", value: 1 },
+          { key: "B", value: 5 },
+          { key: "C", value: 2 },
+        ],
+      },
+    ],
+  },
+];
+const story = makeStory(div, steps);
+story.render("intro", 1);
+</script>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,12 +1,5 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getDatabase ,ref, onValue} from "firebase/database";
-// import {getFirestore,collection,getDocs} from 'firebase/firestore/lite';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { getDatabase, ref, child, get } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAafMMDt569mI3kZvtHm4dJFNHeRprgAZs",
@@ -23,12 +16,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
-// async function getData(db){
-//   const citiesCol = collection(db, 'data');
-//   const citySnapshot = await getDocs(citiesCol);
-//   const cityList = citySnapshot.docs.map(doc => doc.data());
-//   return cityList;
-// }
-const ndb = getDatabase();
-const starCountRef
-console.log(ndb)
+
+const getData=(db)=>{
+  const dbRef = ref(db);
+  return get(child(dbRef, 'data')).then((snapshot) => {
+    if (snapshot.exists()) {
+      // console.log(snapshot.val())
+      return snapshot.val();
+    }
+    else {
+      console.log("No data available")
+    }
+  }
+  )
+
+}
+export {db,getData};
+

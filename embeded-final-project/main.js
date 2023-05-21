@@ -1,6 +1,12 @@
 import * as d3 from 'd3'
+import {db,getData} from './data.js';
+const data = await getData(db);
+
+
 (function() {
+  
   (function() {
+
     function show1(){
       console.log("Show1");
       document.getElementById("vD").style.display = "flex";
@@ -54,23 +60,346 @@ import * as d3 from 'd3'
         unit: 'ppm'
       }
     ];
-    randomize = function(min, max) {
-      // return DATA.map(function(d) {
-      //   d.value = d.value;
-      //   return d;
-      // });
-      // for (const element of DATA) {
-      //   element.value = 0;
-      //   break;
-      // }
-      DATA[0].value = 200;
-      DATA[1].value = 0;
-      DATA[2].value = 40;
-      DATA[3].value = 10;
-      console.log(DATA);
+    var dust = [
+
+    ]
+    var humi = [
+
+    ]
+    var temp = [
+
+    ]
+    var carb = [
+
+    ]
+    randomize = function(data) {
+      var l = data.length;
+      
+      console.log(data);
+      dust=[];
+      humi=[];
+      temp=[];
+      carb=[];
+      var dustC =false;
+      var humiC =false;
+      var tempC =false;
+      var carbC =false;
+      
+      var dustL = -1;
+      var humiL = -1;
+      var tempL = -1;
+      var carbL = -1;
+      for(var i = 0 ;i<l;i++){
+        if(isNaN(data[i][0].value)||isNaN(data[i][1].value)||isNaN(data[i][2].value)||isNaN(data[i][3].value)){
+            
+        }
+        else{
+          //Change dust
+          if(!dustC && dustL == -1){
+            dustL = data[i][0].value;
+          }
+          else if(dustL!=data[i][0].value){
+            dustC = true;
+          }
+          dust.push([560-i*(560/l),data[i][0].value])
+  
+
+          //Change Humid
+          if(!humiC && humiL == -1){
+            humiL = data[i][1].value;
+          }
+          else if(humiL!=data[i][1].value){
+            humiC = true;
+            console.log("NOOOOOOOOOOOOOOo")
+          }
+
+          humi.push([560-i*(560/l),data[i][1].value])
+
+
+  
+        
+          //Change Temp
+          if(!tempC && tempL == -1){
+            tempL = data[i][2].value;
+          }
+          else if(tempL!=data[i][2].value){
+            tempC = true;
+          }
+
+          temp.push([560-i*(560/l),data[i][2].value])
+
+
+  
+        
+          //Change CO
+          if(!carbC && carbL == -1){
+            carbL = data[i][3].value;
+          }
+          else if(carbL!=data[i][3].value){
+            carbC = true;
+          }
+
+          carb.push([560-i*(560/l),data[i][3].value])
+          
+        }
+
+
+
+
+
+
+      }
+      if(!carbC){
+        carb[carb.length-1][1] = carb[carb.length-1][1]+1
+      }
+      if(!humiC){
+        humi[humi.length-1][1] = humi[humi.length-1][1]+1
+      }
+      if(!tempC){
+        temp[temp.length-1][1] = temp[temp.length-1][1]+1
+      }
+      if(!dustC){
+        dust[dust.length-1][1] = dust[dust.length-1][1]+1
+      }
+
+
+                  
+            
+      
+      DATA = data[0];
       return DATA;
       
     };
+    function modifiedData(data){
+      // const s Array.from(Object.values(data));
+      // console.log(data);
+      const lDATA = [];
+      const last = Object.values(data)[Object.keys(data).length-1];
+      // console.log(Object.keys(last).length);
+      for(var i = 1; i <= 100;i++){
+        if(Object.keys(last).length < i){
+          lDATA.push([
+            {
+              value: 0,
+              desc: 'Dust',
+              unit: 'ppm'
+            }, {
+              value: 0,
+              desc: 'Humidity',
+              unit: '%'
+            }, {
+              value: 0,
+              desc: 'Temperature',
+              unit: '°C'
+            }, {
+              value: 0,
+              desc: 'Carbonmonoxide',
+              unit: 'ppm'
+            }
+          ])
+        }
+        else{
+          const lastten = Object.values(last)[Object.keys(last).length-i];
+          lDATA.push([
+            {
+              value: parseInt(lastten.Pm),
+              desc: 'Dust',
+              unit: 'ppm'
+            }, {
+              value: parseInt(lastten.Humid),
+              desc: 'Humidity',
+              unit: '%'
+            }, {
+              value: parseInt(lastten.temp),
+              desc: 'Temperature',
+              unit: '°C'
+            }, {
+              value: parseInt(lastten.CO),
+              desc: 'Carbonmonoxide',
+              unit: 'ppm'
+            }
+          ])
+        }
+
+      }
+      // console.log(lDATA);
+      return lDATA;
+      // for(const key in data){
+      //   console.log(key);
+      // }
+
+    }
+
+    //Chart ======================================
+    (function() {
+      var load_chart1;
+      var load_chart2;
+      var load_chart3;
+      var load_chart4;
+
+      function hide(){
+        console.log("Hide");
+        document.getElementById("DChart").style.display = "none";
+        document.getElementById("HChart").style.display = "none";
+        document.getElementById("TChart").style.display = "none";
+        document.getElementById("CChart").style.display = "none";
+        document.getElementById("vD").style.display = "none";
+        document.getElementById("vH").style.display = "none";
+        document.getElementById("vT").style.display = "none";
+        document.getElementById("vC").style.display = "none";
+        document.getElementById("chart").style.display = "block";
+        
+      }
+      load_chart1 = function() {
+        d3.select(".DChart").classed("loaded", false);
+        console.log("refresh");
+        return setTimeout(function() {
+          return d3.select(".DChart").classed("loaded", true);
+        }, 500);
+        
+      };
+      load_chart2 = function() {
+        d3.select(".DChart").classed("loaded", false);
+        console.log("refresh");
+        return setTimeout(function() {
+          return d3.select(".DChart").classed("loaded", true);
+        }, 500);
+        
+      };
+      load_chart3 = function() {
+        d3.select(".DChart").classed("loaded", false);
+        console.log("refresh");
+        return setTimeout(function() {
+          return d3.select(".DChart").classed("loaded", true);
+        }, 500);
+        
+      };
+      load_chart4 = function() {
+        d3.select(".DChart").classed("loaded", false);
+        console.log("refresh");
+        return setTimeout(function() {
+          return d3.select(".DChart").classed("loaded", true);
+        }, 500);
+        
+      };
+
+      d3.selectAll(".js-do-it-again").on('click', hide);
+      // $(".js-do-it-again").on("click", function() {
+      //   return load_chart();
+      // });
+      load_chart1();
+      load_chart2();
+      load_chart3();
+      load_chart4();
+      hide();
+
+    }).call(this);
+
+
+    function makeChart(){
+      function castToGraph(points,max){
+        var i;
+        for(i = 0;i<points.length;i++){
+          points[i][1] = (points[i][1]/max)*260;
+        }
+        return points;
+      }
+  
+      function makeReverse(points){
+        var i;
+        for(i = 0;i<points.length;i++){
+          points[i][1] = 260-points[i][1];
+        }
+        return points;
+      }
+  
+      const svgPath = (points, command,num) => {
+        // build the d attributes by looping over the points
+        const d = points.reduce((acc, point, i, a) => i === 0
+          ? `M ${point[0]},${point[1]}`
+          : `${acc} ${command(point, i, a)}`
+        , '')
+        if(num==1){
+          return `<path class="dataset"  d="${d}"  fill = "none" stroke="#eaa54b" stroke-width="3"/>`
+        }
+        else if(num==2){
+          return `<path class="dataset"  d="${d}"  fill = "none" stroke="#66a1e2" stroke-width="3" />`
+        }
+        else if(num==3){
+          return `<path class="dataset"  d="${d}"  fill = "none" stroke="#8065e4" stroke-width="3"/>`
+        }
+        return `<path class="dataset"  d="${d}"  fill = "none" stroke="#48cb80" stroke-width="3"/>`
+        
+      }
+  
+  
+      const lineCommand = point => `L ${point[0]} ${point[1]}`
+  
+      const line = (pointA, pointB) => {
+        
+        const lengthX = pointB[0] - pointA[0]
+        const lengthY = pointB[1] - pointA[1]
+        return {
+          length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
+          angle: Math.atan2(lengthY, lengthX)
+        }
+      }
+  
+      const controlPoint = (current, previous, next, reverse) => {
+  
+        const p = previous || current
+        const n = next || current
+        // The smoothing ratio
+        const smoothing = 0.2
+        // Properties of the opposed-line
+        const o = line(p, n)
+        // If is end-control-point, add PI to the angle to go backward
+        const angle = o.angle + (reverse ? Math.PI : 0)
+        const length = o.length * smoothing
+        // The control point position is relative to the current point
+        const x = current[0] + Math.cos(angle) * length
+        const y = current[1] + Math.sin(angle) * length
+        return [x, y]
+      }
+  
+      const bezierCommand = (point, i, a) => {
+        // start control point
+        const [cpsX, cpsY] = controlPoint(a[i - 1], a[i - 2], point)
+        // end control point
+        const [cpeX, cpeY] = controlPoint(point, a[i - 1], a[i + 1], true)
+        return `C ${cpsX},${cpsY} ${cpeX},${cpeY} ${point[0]},${point[1]}`
+      }
+      // console.log("======================")
+      // console.log(dust);
+      // console.log(humi);
+      // console.log(temp);
+      // console.log(carb);
+      // console.log("======================")
+      const svg1 = document.querySelector('.datasets1')
+      castToGraph(dust,100);
+      makeReverse(dust);
+      svg1.innerHTML = svgPath(dust, lineCommand,1)
+  
+      const svg2 = document.querySelector('.datasets2')
+      castToGraph(humi,100);
+      makeReverse(humi);
+      svg2.innerHTML = svgPath(humi, lineCommand,2)
+  
+      const svg3 = document.querySelector('.datasets3')
+      castToGraph(temp,64);
+      makeReverse(temp);
+      svg3.innerHTML = svgPath(temp, lineCommand,3)
+  
+      const svg4 = document.querySelector('.datasets4')
+      castToGraph(carb,100);
+      makeReverse(carb);
+      svg4.innerHTML = svgPath(carb, lineCommand,4)
+    }
+
+
+    // End of Chart =========================
+    makeChart();
+
     highlight = function(seldata, seli) {
       d3.event.stopPropagation();
       svg.selectAll('.bar').attr('fill', function(d, i) {
@@ -90,6 +419,7 @@ import * as d3 from 'd3'
         return xScale(d.value);
       });
     };
+
     highlightClear = function(seldata, seli) {
       // d3.event.stopPropagation();
       console.log(
@@ -237,6 +567,9 @@ import * as d3 from 'd3'
     };
     show1();
     update = function(data) {
+      // data = data[0];
+      // console.log(data);
+      // console.log(DATA);
       MAX_VALUE = d3.max(DATA, function(d) {
         return d.value;
       });
@@ -261,7 +594,7 @@ import * as d3 from 'd3'
       });
       g.select('.portion').transition().duration(ANIM_DURATION).tween('text', function(d) {
         var i;
-        i = d3.interpolate(this.textContent, percentScale(d.value));
+        i = d3.interpolate(this.textContent, d.value);
         return function(t) {
           return this.textContent = i(t).toFixed(0);
         };
@@ -273,8 +606,11 @@ import * as d3 from 'd3'
     d3.select(window).on('resize', resize);
     host = window.location.hostname;
     if (host === 'localhost') {
-      return setInterval((function() {
-        return update(randomize(0,100));
+      return setInterval((async function() {
+        const data = await getData(db);
+        update(randomize(modifiedData(data)));
+        makeChart();
+        return ;
       }), 1000);
     }
     
@@ -282,217 +618,4 @@ import * as d3 from 'd3'
 
 }).call(this);
 
-
-//Chart
-(function() {
-  var load_chart1;
-  var load_chart2;
-  var load_chart3;
-  var load_chart4;
-
-  function hide(){
-    console.log("Hide");
-    document.getElementById("DChart").style.display = "none";
-    document.getElementById("HChart").style.display = "none";
-    document.getElementById("TChart").style.display = "none";
-    document.getElementById("CChart").style.display = "none";
-    document.getElementById("vD").style.display = "none";
-    document.getElementById("vH").style.display = "none";
-    document.getElementById("vT").style.display = "none";
-    document.getElementById("vC").style.display = "none";
-    document.getElementById("chart").style.display = "block";
-    
-  }
-  load_chart1 = function() {
-    d3.select(".DChart").classed("loaded", false);
-    console.log("refresh");
-    return setTimeout(function() {
-      return d3.select(".DChart").classed("loaded", true);
-    }, 500);
-    
-  };
-  load_chart2 = function() {
-    d3.select(".DChart").classed("loaded", false);
-    console.log("refresh");
-    return setTimeout(function() {
-      return d3.select(".DChart").classed("loaded", true);
-    }, 500);
-    
-  };
-  load_chart3 = function() {
-    d3.select(".DChart").classed("loaded", false);
-    console.log("refresh");
-    return setTimeout(function() {
-      return d3.select(".DChart").classed("loaded", true);
-    }, 500);
-    
-  };
-  load_chart4 = function() {
-    d3.select(".DChart").classed("loaded", false);
-    console.log("refresh");
-    return setTimeout(function() {
-      return d3.select(".DChart").classed("loaded", true);
-    }, 500);
-    
-  };
-
-  d3.selectAll(".js-do-it-again").on('click', hide);
-  // $(".js-do-it-again").on("click", function() {
-  //   return load_chart();
-  // });
-  load_chart1();
-  load_chart2();
-  load_chart3();
-  load_chart4();
-  hide();
-
-
-
-
-
-
-
-
-}).call(this);
-
-
-
-
-
-
-
-
-const dust = [
-  [0, 40],
-  [80, 40],
-  [160, 0],
-  [240, 48],
-  [320, 59],
-  [400, 78],
-  [480, 20],
-  [560, 50]
-]
-const humi = [
-  [0, 40],
-  [80, 40],
-  [160, 0],
-  [240, 48],
-  [320, 59],
-  [400, 78],
-  [480, 20],
-  [560, 50]
-]
-const temp = [
-  [0, 40],
-  [80, 40],
-  [160, 0],
-  [240, 48],
-  [320, 59],
-  [400, 64],
-  [480, 20],
-  [560, 50]
-]
-const carb = [
-  [0, 40],
-  [80, 40],
-  [160, 0],
-  [240, 48],
-  [320, 59],
-  [400, 78],
-  [480, 20],
-  [560, 50]
-]
-
-function castToGraph(points,max){
-  var i;
-  for(i = 0;i<points.length;i++){
-    points[i][1] = (points[i][1]/max)*260;
-  }
-  return points;
-}
-
-function makeReverse(points){
-  var i;
-  for(i = 0;i<points.length;i++){
-    points[i][1] = 260-points[i][1];
-  }
-  return points;
-}
-
-const svgPath = (points, command,num) => {
-  // build the d attributes by looping over the points
-  const d = points.reduce((acc, point, i, a) => i === 0
-    ? `M ${point[0]},${point[1]}`
-    : `${acc} ${command(point, i, a)}`
-  , '')
-  if(num==1){
-    return `<path class="dataset"  d="${d}"  fill = "none" stroke="#eaa54b" />`
-  }
-  else if(num==2){
-    return `<path class="dataset"  d="${d}"  fill = "none" stroke="#66a1e2" />`
-  }
-  else if(num==3){
-    return `<path class="dataset"  d="${d}"  fill = "none" stroke="#8065e4" />`
-  }
-  return `<path class="dataset"  d="${d}"  fill = "none" stroke="#48cb80" />`
-  
-}
-
-
-const lineCommand = point => `L ${point[0]} ${point[1]}`
-
-const line = (pointA, pointB) => {
-  
-  const lengthX = pointB[0] - pointA[0]
-  const lengthY = pointB[1] - pointA[1]
-  return {
-    length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
-    angle: Math.atan2(lengthY, lengthX)
-  }
-}
-
-const controlPoint = (current, previous, next, reverse) => {
-
-  const p = previous || current
-  const n = next || current
-  // The smoothing ratio
-  const smoothing = 0.2
-  // Properties of the opposed-line
-  const o = line(p, n)
-  // If is end-control-point, add PI to the angle to go backward
-  const angle = o.angle + (reverse ? Math.PI : 0)
-  const length = o.length * smoothing
-  // The control point position is relative to the current point
-  const x = current[0] + Math.cos(angle) * length
-  const y = current[1] + Math.sin(angle) * length
-  return [x, y]
-}
-
-const bezierCommand = (point, i, a) => {
-  // start control point
-  const [cpsX, cpsY] = controlPoint(a[i - 1], a[i - 2], point)
-  // end control point
-  const [cpeX, cpeY] = controlPoint(point, a[i - 1], a[i + 1], true)
-  return `C ${cpsX},${cpsY} ${cpeX},${cpeY} ${point[0]},${point[1]}`
-}
-
-const svg1 = document.querySelector('.datasets1')
-castToGraph(dust,100);
-makeReverse(dust);
-svg1.innerHTML = svgPath(dust, bezierCommand,1)
-
-const svg2 = document.querySelector('.datasets2')
-castToGraph(humi,100);
-makeReverse(humi);
-svg2.innerHTML = svgPath(humi, lineCommand,2)
-
-const svg3 = document.querySelector('.datasets3')
-castToGraph(temp,64);
-makeReverse(temp);
-svg3.innerHTML = svgPath(temp, lineCommand,3)
-
-const svg4 = document.querySelector('.datasets4')
-castToGraph(carb,100);
-makeReverse(carb);
-svg4.innerHTML = svgPath(carb, lineCommand,4)
 

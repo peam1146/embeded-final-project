@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+
+  </head>
+  <body>
+    <div id="big">
+      <div id="vD" hidden>
+        <div id = "DChart" class = "loaded" hidden>
+          <div class="chart1">
+            <button class="js-do-it-again" title="Title">
+              <span class="ion-loop"></span>
+            </button>
+            <svg viewbox="0 0 560 260">
+              <defs>
+                <filter id="dropshadow">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                  <feOffset dx="0" dy="0" result="offsetblur"></feOffset>
+                  <feComponentTransfer>
+                    <feFuncA slope="0.2" type="linear"></feFuncA>
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                  </feMerge>
+                </filter>
+              </defs>
+              <g class="datasets1">
+                <path class="dataset" id="dataset-1" d="M0,260 
+                C0,260 22,199 64,199 
+                C64,199 70,250 250,250
+                L0,260 
+                Z"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div id="vH" hidden>
+        <div id = "HChart" class = "loaded" hidden>
+          <div class="chart2">
+            <button class="js-do-it-again" title="Title">
+              <span class="ion-loop"></span>
+            </button>
+            <svg viewbox="0 0 560 260">
+              <defs>
+                <filter id="dropshadow">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                  <feOffset dx="0" dy="0" result="offsetblur"></feOffset>
+                  <feComponentTransfer>
+                    <feFuncA slope="0.2" type="linear"></feFuncA>
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                  </feMerge>
+                </filter>
+              </defs>
+              <g class="datasets2">
+                <path class="dataset" id="dataset-2" d="M0,260 C35,254 63,124 88,124 C114,124 148,163 219,163 C290,163 315,100 359,100 C402,100 520,244 560,259 C560,259 0,259 0,260 Z"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div id="vT" hidden>
+        <div id = "TChart" class = "loaded"  hidden>
+          <div class="chart3">
+            <button class="js-do-it-again" title="Title">
+              <span class="ion-loop"></span>
+            </button>
+            <svg viewbox="0 0 560 260">
+              <defs>
+                <filter id="dropshadow">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                  <feOffset dx="0" dy="0" result="offsetblur"></feOffset>
+                  <feComponentTransfer>
+                    <feFuncA slope="0.2" type="linear"></feFuncA>
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                  </feMerge>
+                </filter>
+              </defs>
+              <g class="datasets3">
+                <path class="dataset" id="dataset-3" d="M0,260 C0,260 22,199 64,199 C105,199 112,144 154,144 C195,144 194,126 216,126 C237,126 263,184 314,184 C365,183 386,128 434,129 C483,130 511,240 560,260 L0,260 Z"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div id="vC" hidden>
+        <div id = "CChart" class = "loaded" hidden>
+          <div class="chart4">
+            <button class="js-do-it-again" title="Title">
+              <span class="ion-loop"></span>
+            </button>
+            <svg viewbox="0 0 560 260">
+              <defs>
+                <filter id="dropshadow">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                  <feOffset dx="0" dy="0" result="offsetblur"></feOffset>
+                  <feComponentTransfer>
+                    <feFuncA slope="0.2" type="linear"></feFuncA>
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                  </feMerge>
+                </filter>
+              </defs>
+              <g class="datasets4">
+                <path class="dataset" id="dataset-4" d="M0,260 C0,260 22,199 64,199 C105,199 112,144 154,144 C195,144 194,126 216,126 C237,126 263,184 314,184 C365,183 386,128 434,129 C483,130 511,240 560,260 L0,260 Z"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div id="chart" ></div>
+      </div>
+    </div>  
+
+
+
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

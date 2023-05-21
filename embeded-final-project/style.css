@@ -1,0 +1,318 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+@import url("https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+html{
+  background-color: #384051;
+}
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+
+}
+
+#vD,#vH,#vT,#vC{
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  align-items: center;
+
+}
+svg.horizontal-bar {
+  font-family: "Menlo", monospace;
+  background: #272727;
+  display: block;
+  
+  .portion {
+    font-family: 'Oswald', sans-serif;
+  }
+}
+
+
+
+/* {
+  background: #384051;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: "Montserrat", sans-serif; 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  justify-self: center;
+  justify-items: center;
+  
+} */
+#DChart,#HChart,#TChart,#CChart{
+  background: #384051;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: "Montserrat", sans-serif; 
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  max-width: 800px;
+  max-height: 800px;
+  justify-self: center;
+  justify-items: center;
+  top:10%;
+}
+
+
+a {
+  text-decoration: none;
+  color: #21A6EE; 
+}
+
+.ion-social-dribbble {
+  color: #EC4989; }
+
+
+
+
+
+
+.chart1 {
+  position: relative;
+  width: 80%;
+  height: 100vh;
+  margin: 3em auto;
+  background-image: repeating-radial-gradient(center center, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 2px, transparent 2px, transparent 100%);
+  background-size: 29px 29px;
+  background-position: -11px 11px; 
+}
+
+.chart1::before,
+.chart1::after {
+  display: inline-block;
+  font-size: 0.875em; 
+
+}
+
+.chart1::before {
+  display: inline-block;
+  position: absolute;
+  left: -5.3em;
+  top: -5px;
+  content: "100 ppm \A 75 ppm \A 50 ppm \A 25 ppm \A 0 ppm";
+  white-space: pre;
+  max-width: 800px;
+  max-height: 800px;
+  /* min-width: 100%;
+  min-height: 100%; */
+  line-height: 5.4em;
+  text-align: right; 
+}
+
+.chart1::after {
+  content: "Last10Min Present";
+  width: 100%;
+  margin-left: 0%;
+
+  word-spacing: 36.5em;
+  /* justify-content: center; */
+  padding-top: 0.5em; 
+}
+
+
+.chart2 {
+  position: relative;
+  width: 80%;
+  height: 100vh;
+  margin: 3em auto;
+  background-image: repeating-radial-gradient(center center, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 2px, transparent 2px, transparent 100%);
+  background-size: 29px 29px;
+  background-position: -11px 11px; 
+}
+
+.chart2::before,
+.chart2::after {
+  display: inline-block;
+  font-size: 0.875em; 
+
+}
+
+.chart2::before {
+  display: inline-block;
+  position: absolute;
+  left: -4em;
+  top: -5px;
+  content: "100% \A 75% \A 50% \A 25% \A 0%";
+  white-space: pre;
+  max-width: 800px;
+  max-height: 800px;
+  /* min-width: 100%;
+  min-height: 100%; */
+  line-height: 5.15em;
+  text-align: right; 
+}
+
+.chart2::after {
+  content: "Last10Min Present";
+  width: 100%;
+  margin-left: 0%;
+
+  word-spacing: 36.5em;
+  /* justify-content: center; */
+  padding-top: 0.5em; 
+}
+
+
+.chart3 {
+  position: relative;
+  width: 80%;
+  height: 100vh;
+  margin: 3em auto;
+  background-image: repeating-radial-gradient(center center, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 2px, transparent 2px, transparent 100%);
+  background-size: 29px 29px;
+  background-position: -11px 11px; 
+}
+
+.chart3::before,
+.chart3::after {
+  display: inline-block;
+  font-size: 0.875em; 
+
+}
+
+.chart3::before {
+  display: inline-block;
+  position: absolute;
+  left: -5em;
+  top: -5px;
+  content: "64°C \A 48°C \A 32°C \A 16°C \A 0°C";
+  white-space: pre;
+  max-width: 800px;
+  max-height: 800px;
+  /* min-width: 100%;
+  min-height: 100%; */
+  line-height: 5.1em;
+  text-align: right; 
+}
+
+.chart3::after {
+  content: "Last10Min Present";
+  width: 100%;
+  margin-left: 0%;
+
+  word-spacing: 36.5em;
+  /* justify-content: center; */
+  padding-top: 0.5em; 
+}
+
+
+
+.chart4 {
+  position: relative;
+  width: 80%;
+  height: 100vh;
+  margin: 3em auto;
+  background-image: repeating-radial-gradient(center center, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 2px, transparent 2px, transparent 100%);
+  background-size: 29px 29px;
+  background-position: -11px 11px; 
+}
+
+.chart4::before,
+.chart4::after {
+  display: inline-block;
+  font-size: 0.875em; 
+
+}
+
+.chart4::before {
+  display: inline-block;
+  position: absolute;
+  left: -7.5em;
+  top: -5px;
+  content: "100ppm \A 75ppm \A 50ppm \A 25ppm \A 0ppm";
+  white-space: pre;
+  max-width: 800px;
+  max-height: 800px;
+  /* min-width: 100%;
+  min-height: 100%; */
+  line-height: 5.1em;
+  text-align: right; 
+}
+
+.chart4::after {
+  content: "Last10Min Present";
+  width: 100%;
+  margin-left: 0%;
+
+  word-spacing: 36.5em;
+  /* justify-content: center; */
+  padding-top: 0.5em; 
+}
+
+
+
+
+
+
+
+.dataset {
+  /* fill-opacity: 0.8; */
+  filter: url(#dropshadow); 
+  
+}
+
+/* #dataset-1 {
+  fill: #eaa54b; 
+}
+
+#dataset-2 {
+  fill: #66a1e2; }
+
+#dataset-3 {
+  fill: #8065e4; }
+
+#dataset-4 {
+  fill: #48cb80; } */
+  
+.chart1 button ,.chart2 button ,.chart3 button ,.chart4 button {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  color: #384051;
+  border-radius: 5px;
+  font-size: 2em;
+  float: right;
+  cursor: pointer; 
+  max-width: 100px;
+}
+  .chart1 button:focus,.chart2 button:focus,.chart3 button:focus,.chart4 button:focus {
+    outline: none; 
+  }
+
+
+@keyframes raise {
+  0% {
+    transform: scaleY(0.01); }
+  75% {
+    transform: scaleY(1.1); }
+  100% {
+    transform: scaleY(1); } }
+
+.dataset {
+  transform-origin: bottom;
+  transform: scaleY(0.01);
+  opacity: 0.5; 
+}
+
+
+.loaded .dataset {
+  opacity: 1;
+  animation: raise 0.5s ease 0.2s forwards; 
+}
+
+.loaded #dataset-1 {
+  animation-delay: 0.1s; 
+}
+
+.loaded #dataset-2 {
+  animation-delay: 0.1s; }
+
+.loaded #dataset-3 {
+  animation-delay: 0.1s; }

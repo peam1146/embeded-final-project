@@ -94,7 +94,7 @@ a {
   position: absolute;
   left: -5.3em;
   top: -5px;
-  content: "100 ppm \A 75 ppm \A 50 ppm \A 25 ppm \A 0 ppm";
+  content: "600 ppm \A 450 ppm \A 300 ppm \A 150 ppm \A 0 ppm";
   white-space: pre;
   max-width: 800px;
   max-height: 800px;
@@ -316,3 +316,5 @@ a {
 
 .loaded #dataset-3 {
   animation-delay: 0.1s; }
+
+

@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { getDatabase, ref, child, get ,set } from "firebase/database";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAafMMDt569mI3kZvtHm4dJFNHeRprgAZs",
@@ -17,6 +19,10 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
+function writeUserData(state) {
+  const db = getDatabase();
+  set(ref(db, "state"), state);
+}
 const getData=(db)=>{
   const dbRef = ref(db);
   return get(child(dbRef, 'data')).then((snapshot) => {
@@ -25,11 +31,11 @@ const getData=(db)=>{
       return snapshot.val();
     }
     else {
-      console.log("No data available")
+      console.log("No data available");
     }
   }
   )
 
 }
-export {db,getData};
+export {db,getData,writeUserData};
 

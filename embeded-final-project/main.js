@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import {db,getData} from './data.js';
+import {db,getData,writeUserData} from './data.js';
 const data = await getData(db);
 
 
@@ -7,34 +7,7 @@ const data = await getData(db);
   
   (function() {
 
-    function show1(){
-      console.log("Show1");
-      document.getElementById("vD").style.display = "flex";
-      document.getElementById("DChart").style.display = "block";
-      document.getElementById("chart").style.display = "none";
-      
-    }
-    function show2(){
-      console.log("Show2");
-      document.getElementById("vH").style.display = "flex";
-      document.getElementById("HChart").style.display = "block";
-      document.getElementById("chart").style.display = "none";
-      
-    }
-    function show3(){
-      console.log("Show3");
-      document.getElementById("vT").style.display = "flex";
-      document.getElementById("TChart").style.display = "block";
-      document.getElementById("chart").style.display = "none";
-      
-    }
-    function show4(){
-      console.log("Show4");
-      document.getElementById("vC").style.display = "flex";
-      document.getElementById("CChart").style.display = "block";
-      document.getElementById("chart").style.display = "none";
-      
-    }
+
 
     var ANIM_DELAY, ANIM_DURATION, BAR_HEIGHT, COLORS, COLORS_G, DATA, H, INITIAL_WIDTH, M, MAX_VALUE, NAME, TOTAL_VALUE, W, container, g, highlight, highlightClear, host, oH, oW, percentScale, randomize, resize, svg, update, xScale, yScale;
     NAME = 'horizontal-bar';
@@ -75,7 +48,7 @@ const data = await getData(db);
     randomize = function(data) {
       var l = data.length;
       
-      console.log(data);
+      // console.log(data);
       dust=[];
       humi=[];
       temp=[];
@@ -110,7 +83,6 @@ const data = await getData(db);
           }
           else if(humiL!=data[i][1].value){
             humiC = true;
-            console.log("NOOOOOOOOOOOOOOo")
           }
 
           humi.push([560-i*(560/l),data[i][1].value])
@@ -297,6 +269,7 @@ const data = await getData(db);
 
 
     function makeChart(){
+      // console.log(open);
       function castToGraph(points,max){
         var i;
         for(i = 0;i<points.length;i++){
@@ -313,22 +286,37 @@ const data = await getData(db);
         return points;
       }
   
-      const svgPath = (points, command,num) => {
+      const svgPath = (points, command,num,open) => {
         // build the d attributes by looping over the points
         const d = points.reduce((acc, point, i, a) => i === 0
           ? `M ${point[0]},${point[1]}`
           : `${acc} ${command(point, i, a)}`
         , '')
-        if(num==1){
-          return `<path class="dataset"  d="${d}"  fill = "none" stroke="#eaa54b" stroke-width="3"/>`
+        if(true){
+          if(num==1){
+            return `<path d="${d}"  fill = "none" stroke="#eaa54b" stroke-width="3"/>`
+          }
+          else if(num==2){
+            return `<path d="${d}"  fill = "none" stroke="#66a1e2" stroke-width="3" />`
+          }
+          else if(num==3){
+            return `<path d="${d}"  fill = "none" stroke="#8065e4" stroke-width="3"/>`
+          }
+          return `<path d="${d}"  fill = "none" stroke="#48cb80" stroke-width="3"/>`
         }
-        else if(num==2){
-          return `<path class="dataset"  d="${d}"  fill = "none" stroke="#66a1e2" stroke-width="3" />`
+        else{
+          if(num==1){
+            return `<path  class = "dataset" d="${d}"  fill = "none" stroke="#eaa54b" stroke-width="3"/>`
+          }
+          else if(num==2){
+            return `<path  class = "dataset" d="${d}"  fill = "none" stroke="#66a1e2" stroke-width="3" />`
+          }
+          else if(num==3){
+            return `<path class = "dataset"  d="${d}"  fill = "none" stroke="#8065e4" stroke-width="3"/>`
+          }
+          return `<path  class = "dataset" d="${d}"  fill = "none" stroke="#48cb80" stroke-width="3"/>`
         }
-        else if(num==3){
-          return `<path class="dataset"  d="${d}"  fill = "none" stroke="#8065e4" stroke-width="3"/>`
-        }
-        return `<path class="dataset"  d="${d}"  fill = "none" stroke="#48cb80" stroke-width="3"/>`
+
         
       }
   
@@ -376,7 +364,7 @@ const data = await getData(db);
       // console.log(carb);
       // console.log("======================")
       const svg1 = document.querySelector('.datasets1')
-      castToGraph(dust,100);
+      castToGraph(dust,600);
       makeReverse(dust);
       svg1.innerHTML = svgPath(dust, lineCommand,1)
   
@@ -398,7 +386,42 @@ const data = await getData(db);
 
 
     // End of Chart =========================
-    makeChart();
+    makeChart(false);
+    async function show1(){
+      console.log("Show1");
+      makeChart();
+      document.getElementById("vD").style.display = "flex";
+      document.getElementById("DChart").style.display = "block";
+      document.getElementById("chart").style.display = "none";
+      
+      
+    }
+    function show2(){
+      console.log("Show2");
+      
+      document.getElementById("vH").style.display = "flex";
+      document.getElementById("HChart").style.display = "block";
+      document.getElementById("chart").style.display = "none";
+      makeChart();
+      
+    }
+    function show3(){
+      
+      console.log("Show3");
+      document.getElementById("vT").style.display = "flex";
+      document.getElementById("TChart").style.display = "block";
+      document.getElementById("chart").style.display = "none";
+      makeChart();
+      
+    }
+    function show4(){
+      console.log("Show4");
+      
+      document.getElementById("vC").style.display = "flex";
+      document.getElementById("CChart").style.display = "block";
+      document.getElementById("chart").style.display = "none";
+      makeChart();
+    }
 
     highlight = function(seldata, seli) {
       d3.event.stopPropagation();
@@ -617,5 +640,44 @@ const data = await getData(db);
   })(window);
 
 }).call(this);
+
+
+
+
+
+
+//button========================
+var toggle1 = 0;
+function Open(){
+  
+  if (toggle1 === 0) {
+		document.getElementById('Open').style.color = "orange"; //play music
+    document.getElementById('Open').innerText = "Close";
+		toggle1 = 1;
+    writeUserData(1);
+	}
+	else if (toggle1 === 1) {
+		document.getElementById('Open').style.color = 'red'; //pause music
+    document.getElementById('Open').innerText = "Auto";
+		toggle1 = 2;
+    writeUserData(0);
+	}
+	else if (toggle1 === 2) {
+		document.getElementById('Open').style.color = 'black'; //stop music
+    document.getElementById('Open').innerText = "Open";
+		toggle1 = 0;
+    writeUserData(-1);
+	}
+}
+document.getElementById("Open").addEventListener("click",Open)
+
+
+
+
+
+
+
+
+
 
 

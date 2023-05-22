@@ -1,22 +1,37 @@
 import * as d3 from 'd3'
-import {db,getData,writeUserData} from './data.js';
+import {db,getData,writeUserData,readUserData} from './data.js';
 const data = await getData(db);
+
 
 
 (function() {
   
   (function() {
-
-
-
     var ANIM_DELAY, ANIM_DURATION, BAR_HEIGHT, COLORS, COLORS_G, DATA, H, INITIAL_WIDTH, M, MAX_VALUE, NAME, TOTAL_VALUE, W, container, g, highlight, highlightClear, host, oH, oW, percentScale, randomize, resize, svg, update, xScale, yScale;
+    const lastData = [      {
+      value: 0,
+      desc: 'Dust',
+      unit: 'ppm'
+    }, {
+      value: 0,
+      desc: 'Humidity',
+      unit: '%'
+    }, {
+      value: 0,
+      desc: 'Temperature',
+      unit: '°C'
+    }, {
+      value: 10,
+      desc: 'Carbonmonoxide',
+      unit: 'ppm'
+    }]
     NAME = 'horizontal-bar';
     M = 0;
     COLORS = ['#eaa54b', '#66a1e2', '#8065e4', '#48cb80'];
     COLORS_G = ['#b5b5b5', '#8c8c8c', '#6b6b6b', '#565656'];
     DATA = [
       {
-        value: 200,
+        value: 0,
         desc: 'Dust',
         unit: 'ppm'
       }, {
@@ -24,11 +39,11 @@ const data = await getData(db);
         desc: 'Humidity',
         unit: '%'
       }, {
-        value: 40,
+        value: 0,
         desc: 'Temperature',
         unit: '°C'
       }, {
-        value: 10,
+        value: 0,
         desc: 'Carbonmonoxide',
         unit: 'ppm'
       }
@@ -64,7 +79,6 @@ const data = await getData(db);
       var carbL = -1;
       for(var i = 0 ;i<l;i++){
         if(isNaN(data[i][0].value)||isNaN(data[i][1].value)||isNaN(data[i][2].value)||isNaN(data[i][3].value)){
-            
         }
         else{
           //Change dust
@@ -97,9 +111,11 @@ const data = await getData(db);
           else if(tempL!=data[i][2].value){
             tempC = true;
           }
-
-          temp.push([560-i*(560/l),data[i][2].value])
-
+          console.log('1',[560-i*(560/l),data[i][2].value])
+          const t = [560-i*(560/l),data[i][2].value];
+          console.log('2',[t[0],t[1]]);
+          temp.push([t[0],t[1]])
+          // console.log(temp);
 
   
         
@@ -110,17 +126,11 @@ const data = await getData(db);
           else if(carbL!=data[i][3].value){
             carbC = true;
           }
-
-          carb.push([560-i*(560/l),data[i][3].value])
           
+          carb.push([560-i*(560/l),data[i][3].value])
         }
-
-
-
-
-
-
       }
+      
       if(!carbC){
         carb[carb.length-1][1] = carb[carb.length-1][1]+1
       }
@@ -133,10 +143,6 @@ const data = await getData(db);
       if(!dustC){
         dust[dust.length-1][1] = dust[dust.length-1][1]+1
       }
-
-
-                  
-            
       
       DATA = data[0];
       return DATA;
@@ -186,7 +192,7 @@ const data = await getData(db);
               desc: 'Temperature',
               unit: '°C'
             }, {
-              value: parseInt(lastten.CO),
+              value: parseInt(lastten.CO)+0.5,
               desc: 'Carbonmonoxide',
               unit: 'ppm'
             }
@@ -386,7 +392,7 @@ const data = await getData(db);
 
 
     // End of Chart =========================
-    makeChart(false);
+    
     async function show1(){
       console.log("Show1");
       makeChart();
@@ -526,6 +532,18 @@ const data = await getData(db);
     }).attr('y', function(d, i) {
       return yScale(i) + BAR_HEIGHT / 2;
     }).attr('dy', "0em").attr('font-size', (BAR_HEIGHT / 4.7) + "px").attr('fill', '#fff').text(function(d) {
+      if(d.desc=="Humidity"){
+        return d.desc+" 💦";
+      }
+      else if(d.desc=="Dust"){
+        return d.desc+" 😷";
+      }
+      else if(d.desc=="Temperature"){
+        return d.desc+ " 🌡";
+      }
+      else if(d.desc=="Carbonmonoxide"){
+        return d.desc+" 💨";
+      }
       return d.desc;
     });
     //item Unit
@@ -588,11 +606,23 @@ const data = await getData(db);
       //   return "translate(" + (oW - 60) + ", " + (yScale(i) + BAR_HEIGHT / 2 - 18) + ")";
       // });
     };
-    show1();
+    // show1();
     update = function(data) {
       // data = data[0];
       // console.log(data);
-      // console.log(DATA);
+      console.log(DATA);
+      for(var i in data){
+        // console.log(data);
+        // console.log(data[i])
+        if(isNaN(data[i].value)){
+          data[i].value = lastData[i].value;
+          
+        }
+        else{
+          lastData[i].value = data[i].value;
+        }
+      }
+      
       MAX_VALUE = d3.max(DATA, function(d) {
         return d.value;
       });
@@ -647,29 +677,44 @@ const data = await getData(db);
 
 
 //button========================
-var toggle1 = 0;
-function Open(){
+var toggle1 = await readUserData();
+// console.log(toggle1);
+if (toggle1 === 0) {
+  document.getElementById('Toggle').style.color = "orange"; //play music
+  document.getElementById('Toggle').innerText = "Close";
+  document.getElementById('Toggle').conten
+}
+else if (toggle1 === 1) {
+  document.getElementById('Toggle').style.color = 'red'; //pause music
+  document.getElementById('Toggle').innerText = "Open";
+}
+else if (toggle1 === -1) {
+  document.getElementById('Toggle').style.color = 'black'; //stop music
+  document.getElementById('Toggle').innerText = "Auto";
+}
+
+function Toggle(){
   
   if (toggle1 === 0) {
-		document.getElementById('Open').style.color = "orange"; //play music
-    document.getElementById('Open').innerText = "Close";
+		document.getElementById('Toggle').style.color = "orange"; //play music
+    document.getElementById('Toggle').innerText = "Open";
 		toggle1 = 1;
     writeUserData(1);
 	}
 	else if (toggle1 === 1) {
-		document.getElementById('Open').style.color = 'red'; //pause music
-    document.getElementById('Open').innerText = "Auto";
-		toggle1 = 2;
-    writeUserData(0);
-	}
-	else if (toggle1 === 2) {
-		document.getElementById('Open').style.color = 'black'; //stop music
-    document.getElementById('Open').innerText = "Open";
-		toggle1 = 0;
+		document.getElementById('Toggle').style.color = 'red'; //pause music
+    document.getElementById('Toggle').innerText = "Auto";
+		toggle1 = -1;
     writeUserData(-1);
 	}
+	else if (toggle1 === -1) {
+		document.getElementById('Toggle').style.color = 'black'; //stop music
+    document.getElementById('Toggle').innerText = "Close";
+		toggle1 = 0;
+    writeUserData(0);
+	}
 }
-document.getElementById("Open").addEventListener("click",Open)
+document.getElementById("Toggle").addEventListener("click",Toggle)
 
 
 

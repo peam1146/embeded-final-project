@@ -23,6 +23,21 @@ function writeUserData(state) {
   const db = getDatabase();
   set(ref(db, "state"), state);
 }
+
+async function readUserData() {
+  const dbRef = ref(db);
+  return get(child(dbRef, 'state')).then((snapshot) => {
+    if (snapshot.exists()) {
+      // console.log(snapshot.val())
+      return snapshot.val();
+    }
+    else {
+      console.log("No data available");
+    }
+  }
+  )
+}
+
 const getData=(db)=>{
   const dbRef = ref(db);
   return get(child(dbRef, 'data')).then((snapshot) => {
@@ -37,5 +52,5 @@ const getData=(db)=>{
   )
 
 }
-export {db,getData,writeUserData};
+export {db,getData,writeUserData,readUserData};
 

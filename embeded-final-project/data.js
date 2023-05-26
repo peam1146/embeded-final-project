@@ -4,15 +4,17 @@ import { getDatabase, ref, child, get ,set } from "firebase/database";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAafMMDt569mI3kZvtHm4dJFNHeRprgAZs",
-  authDomain: "embeded-final-project.firebaseapp.com",
-  databaseURL: "https://embeded-final-project-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "embeded-final-project",
-  storageBucket: "embeded-final-project.appspot.com",
-  messagingSenderId: "233106376288",
-  appId: "1:233106376288:web:a55eec386507a7d04fa505",
-  measurementId: "G-9N90XMLCNH"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_DATABASE_URL,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
+
+console.log(firebaseConfig);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

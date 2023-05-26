@@ -34,6 +34,25 @@ svg.horizontal-bar {
   }
 }
 
+button.toggle {
+  border: none;
+  background: #272727;
+  background-color: rgb(203, 71, 71);
+  cursor: pointer;
+}
+
+button.toggle:hover {
+  opacity: 0.7;
+}
+
+button.toggle.active {
+ background-color: rgb(71, 203, 128); 
+}
+
+
+
+
+
 /* {
   background: #384051;
   color: rgba(255, 255, 255, 0.3);

@@ -86,7 +86,6 @@ const data = await getData(db);
     randomize = function (data) {
       var l = data.length;
 
-      // console.log(data);
       dust = [];
       humi = [];
       temp = [];
@@ -131,11 +130,8 @@ const data = await getData(db);
           } else if (tempL != data[i][2].value) {
             tempC = true;
           }
-          console.log("1", [560 - i * (560 / l), data[i][2].value]);
           const t = [560 - i * (560 / l), data[i][2].value];
-          console.log("2", [t[0], t[1]]);
           temp.push([t[0], t[1]]);
-          // console.log(temp);
 
           //Change CO
           if (!carbC && carbL == -1) {
@@ -235,7 +231,6 @@ const data = await getData(db);
       var load_chart4;
 
       function hide() {
-        console.log("Hide");
         document.getElementById("DChart").style.display = "none";
         document.getElementById("HChart").style.display = "none";
         document.getElementById("TChart").style.display = "none";
@@ -248,28 +243,24 @@ const data = await getData(db);
       }
       load_chart1 = function () {
         d3.select(".DChart").classed("loaded", false);
-        console.log("refresh");
         return setTimeout(function () {
           return d3.select(".DChart").classed("loaded", true);
         }, 500);
       };
       load_chart2 = function () {
         d3.select(".DChart").classed("loaded", false);
-        console.log("refresh");
         return setTimeout(function () {
           return d3.select(".DChart").classed("loaded", true);
         }, 500);
       };
       load_chart3 = function () {
         d3.select(".DChart").classed("loaded", false);
-        console.log("refresh");
         return setTimeout(function () {
           return d3.select(".DChart").classed("loaded", true);
         }, 500);
       };
       load_chart4 = function () {
         d3.select(".DChart").classed("loaded", false);
-        console.log("refresh");
         return setTimeout(function () {
           return d3.select(".DChart").classed("loaded", true);
         }, 500);
@@ -368,12 +359,6 @@ const data = await getData(db);
         const [cpeX, cpeY] = controlPoint(point, a[i - 1], a[i + 1], true);
         return `C ${cpsX},${cpsY} ${cpeX},${cpeY} ${point[0]},${point[1]}`;
       };
-      // console.log("======================")
-      // console.log(dust);
-      // console.log(humi);
-      // console.log(temp);
-      // console.log(carb);
-      // console.log("======================")
       const svg1 = document.querySelector(".datasets1");
       castToGraph(dust, 600);
       makeReverse(dust);
@@ -398,30 +383,24 @@ const data = await getData(db);
     // End of Chart =========================
 
     async function show1() {
-      console.log("Show1");
       makeChart();
       document.getElementById("vD").style.display = "flex";
       document.getElementById("DChart").style.display = "block";
       document.getElementById("chart").style.display = "none";
     }
     function show2() {
-      console.log("Show2");
-
       document.getElementById("vH").style.display = "flex";
       document.getElementById("HChart").style.display = "block";
       document.getElementById("chart").style.display = "none";
       makeChart();
     }
     function show3() {
-      console.log("Show3");
       document.getElementById("vT").style.display = "flex";
       document.getElementById("TChart").style.display = "block";
       document.getElementById("chart").style.display = "none";
       makeChart();
     }
     function show4() {
-      console.log("Show4");
-
       document.getElementById("vC").style.display = "flex";
       document.getElementById("CChart").style.display = "block";
       document.getElementById("chart").style.display = "none";
@@ -462,7 +441,6 @@ const data = await getData(db);
 
     highlightClear = function (seldata, seli) {
       // d3.event.stopPropagation();
-      console.log("Click");
       return svg.selectAll(".bar").attr("fill", function (d, i) {
         return COLORS[i];
       });
@@ -707,11 +685,7 @@ const data = await getData(db);
     // show1();
     update = function (data) {
       // data = data[0];
-      // console.log(data);
-      console.log(DATA);
       for (var i in data) {
-        // console.log(data);
-        // console.log(data[i])
         if (isNaN(data[i].value)) {
           data[i].value = lastData[i].value;
         } else {

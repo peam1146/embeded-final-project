@@ -1,5 +1,8 @@
 import * as d3 from "d3";
 import { db, getData, writeUserData, readUserData } from "./data.js";
+
+async function t() {
+
 const data = await getData(db);
 
 (function () {
@@ -786,3 +789,6 @@ function Toggle() {
   }
 }
 document.getElementById("Toggle").addEventListener("click", Toggle);
+}
+
+t()
